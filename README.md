@@ -58,4 +58,7 @@ AE2が要求するGuideMEは開発用の実行依存として設定されてい�
 配布物は`build/libs/me-cross-cable-forge-1.20.1-<version>.jar`です。
 `-sources.jar`は導入しません。NeoForge版はまだ実装していません。
 
-初期版はAlphaです。検証済み範囲と未検証項目は[検証記録](docs/VALIDATION.md)を参照してください。
+初期版はAlphaです。AE2 15.4.11でビルド、単体試験5件、実AE2 GameTest 8件、
+隔離クライアントでモデル・夜間の発光・設定同期を確認しました。
+試験と画像証拠はローカル開発用checkoutに保持しています。
+他のMOD構成・全ての将来AE2版との互換性や、本番環境での動作は未保証です。
