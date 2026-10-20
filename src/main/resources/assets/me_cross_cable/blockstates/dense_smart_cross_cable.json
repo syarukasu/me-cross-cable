@@ -1,0 +1,57 @@
+{
+  "multipart": [
+    {
+      "apply": {
+        "model": "me_cross_cable:block/dense_smart_cross_cable"
+      }
+    },
+    {
+      "apply": {
+        "model": "me_cross_cable:block/dense_smart_cross_cable_down"
+      },
+      "when": {
+        "down": "true"
+      }
+    },
+    {
+      "apply": {
+        "model": "me_cross_cable:block/dense_smart_cross_cable_up"
+      },
+      "when": {
+        "up": "true"
+      }
+    },
+    {
+      "apply": {
+        "model": "me_cross_cable:block/dense_smart_cross_cable_north"
+      },
+      "when": {
+        "north": "true"
+      }
+    },
+    {
+      "apply": {
+        "model": "me_cross_cable:block/dense_smart_cross_cable_south"
+      },
+      "when": {
+        "south": "true"
+      }
+    },
+    {
+      "apply": {
+        "model": "me_cross_cable:block/dense_smart_cross_cable_west"
+      },
+      "when": {
+        "west": "true"
+      }
+    },
+    {
+      "apply": {
+        "model": "me_cross_cable:block/dense_smart_cross_cable_east"
+      },
+      "when": {
+        "east": "true"
+      }
+    }
+  ]
+}

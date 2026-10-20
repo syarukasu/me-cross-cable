@@ -1,0 +1,8 @@
+{
+  "replace": false,
+  "values": [
+    "me_cross_cable:cross_cable",
+    "me_cross_cable:smart_cross_cable",
+    "me_cross_cable:dense_smart_cross_cable"
+  ]
+}

@@ -1,0 +1,22 @@
+{
+  "criteria": {
+    "has_cable": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "ae2:fluix_glass_cable"
+            ]
+          }
+        ]
+      }
+    }
+  },
+  "rewards": {
+    "recipes": [
+      "me_cross_cable:cross_cable"
+    ]
+  },
+  "parent": "minecraft:recipes/root"
+}

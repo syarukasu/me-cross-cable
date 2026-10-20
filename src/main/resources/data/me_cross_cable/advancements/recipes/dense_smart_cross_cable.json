@@ -1,0 +1,22 @@
+{
+  "criteria": {
+    "has_cable": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "ae2:fluix_smart_dense_cable"
+            ]
+          }
+        ]
+      }
+    }
+  },
+  "rewards": {
+    "recipes": [
+      "me_cross_cable:dense_smart_cross_cable"
+    ]
+  },
+  "parent": "minecraft:recipes/root"
+}

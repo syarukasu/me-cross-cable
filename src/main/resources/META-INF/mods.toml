@@ -1,0 +1,27 @@
+modLoader="javafml"
+loaderVersion="[47,)"
+license="MIT"
+[[mods]]
+modId="me_cross_cable"
+version="${version}"
+displayName="ME Cross Cable"
+authors="syarukasu"
+description='''Three independent straight-through ME lines in one block. Glass, smart and dense smart variants. No shared inventory or network bridge.'''
+[[dependencies.me_cross_cable]]
+modId="forge"
+mandatory=true
+versionRange="[47.4.18,48)"
+ordering="NONE"
+side="BOTH"
+[[dependencies.me_cross_cable]]
+modId="minecraft"
+mandatory=true
+versionRange="[1.20.1,1.20.2)"
+ordering="NONE"
+side="BOTH"
+[[dependencies.me_cross_cable]]
+modId="ae2"
+mandatory=true
+versionRange="[15.4.10,)"
+ordering="AFTER"
+side="BOTH"

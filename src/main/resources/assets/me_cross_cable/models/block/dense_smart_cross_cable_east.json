@@ -1,0 +1,476 @@
+{
+  "textures": {
+    "glow": "me_cross_cable:block/glow",
+    "jacket": "me_cross_cable:block/jacket",
+    "port": "me_cross_cable:block/port"
+  },
+  "elements": [
+    {
+      "faces": {
+        "down": {
+          "texture": "#jacket",
+          "uv": [
+            0,
+            0,
+            16,
+            16
+          ],
+          "tintindex": 8
+        },
+        "up": {
+          "texture": "#jacket",
+          "uv": [
+            0,
+            0,
+            16,
+            16
+          ],
+          "tintindex": 8
+        },
+        "north": {
+          "texture": "#jacket",
+          "uv": [
+            0,
+            0,
+            16,
+            16
+          ],
+          "tintindex": 8
+        },
+        "south": {
+          "texture": "#jacket",
+          "uv": [
+            0,
+            0,
+            16,
+            16
+          ],
+          "tintindex": 8
+        },
+        "west": {
+          "texture": "#jacket",
+          "uv": [
+            0,
+            0,
+            16,
+            16
+          ],
+          "tintindex": 8
+        },
+        "east": {
+          "texture": "#jacket",
+          "uv": [
+            0,
+            0,
+            16,
+            16
+          ],
+          "tintindex": 8
+        }
+      },
+      "to": [
+        16.0,
+        12.0,
+        12.0
+      ],
+      "from": [
+        12.0,
+        4.0,
+        4.0
+      ]
+    },
+    {
+      "faces": {
+        "down": {
+          "texture": "#port",
+          "uv": [
+            0,
+            0,
+            16,
+            16
+          ]
+        },
+        "up": {
+          "texture": "#port",
+          "uv": [
+            0,
+            0,
+            16,
+            16
+          ]
+        },
+        "north": {
+          "texture": "#port",
+          "uv": [
+            0,
+            0,
+            16,
+            16
+          ]
+        },
+        "south": {
+          "texture": "#port",
+          "uv": [
+            0,
+            0,
+            16,
+            16
+          ]
+        },
+        "west": {
+          "texture": "#port",
+          "uv": [
+            0,
+            0,
+            16,
+            16
+          ]
+        },
+        "east": {
+          "texture": "#port",
+          "uv": [
+            0,
+            0,
+            16,
+            16
+          ]
+        }
+      },
+      "to": [
+        14.5,
+        4.0,
+        13.0
+      ],
+      "from": [
+        13.85,
+        3.0,
+        3.0
+      ]
+    },
+    {
+      "faces": {
+        "down": {
+          "texture": "#port",
+          "uv": [
+            0,
+            0,
+            16,
+            16
+          ]
+        },
+        "up": {
+          "texture": "#port",
+          "uv": [
+            0,
+            0,
+            16,
+            16
+          ]
+        },
+        "north": {
+          "texture": "#port",
+          "uv": [
+            0,
+            0,
+            16,
+            16
+          ]
+        },
+        "south": {
+          "texture": "#port",
+          "uv": [
+            0,
+            0,
+            16,
+            16
+          ]
+        },
+        "west": {
+          "texture": "#port",
+          "uv": [
+            0,
+            0,
+            16,
+            16
+          ]
+        },
+        "east": {
+          "texture": "#port",
+          "uv": [
+            0,
+            0,
+            16,
+            16
+          ]
+        }
+      },
+      "to": [
+        14.5,
+        13.0,
+        13.0
+      ],
+      "from": [
+        13.85,
+        12.0,
+        3.0
+      ]
+    },
+    {
+      "faces": {
+        "down": {
+          "texture": "#port",
+          "uv": [
+            0,
+            0,
+            16,
+            16
+          ]
+        },
+        "up": {
+          "texture": "#port",
+          "uv": [
+            0,
+            0,
+            16,
+            16
+          ]
+        },
+        "north": {
+          "texture": "#port",
+          "uv": [
+            0,
+            0,
+            16,
+            16
+          ]
+        },
+        "south": {
+          "texture": "#port",
+          "uv": [
+            0,
+            0,
+            16,
+            16
+          ]
+        },
+        "west": {
+          "texture": "#port",
+          "uv": [
+            0,
+            0,
+            16,
+            16
+          ]
+        },
+        "east": {
+          "texture": "#port",
+          "uv": [
+            0,
+            0,
+            16,
+            16
+          ]
+        }
+      },
+      "to": [
+        14.5,
+        12.0,
+        4.0
+      ],
+      "from": [
+        13.85,
+        4.0,
+        3.0
+      ]
+    },
+    {
+      "faces": {
+        "down": {
+          "texture": "#port",
+          "uv": [
+            0,
+            0,
+            16,
+            16
+          ]
+        },
+        "up": {
+          "texture": "#port",
+          "uv": [
+            0,
+            0,
+            16,
+            16
+          ]
+        },
+        "north": {
+          "texture": "#port",
+          "uv": [
+            0,
+            0,
+            16,
+            16
+          ]
+        },
+        "south": {
+          "texture": "#port",
+          "uv": [
+            0,
+            0,
+            16,
+            16
+          ]
+        },
+        "west": {
+          "texture": "#port",
+          "uv": [
+            0,
+            0,
+            16,
+            16
+          ]
+        },
+        "east": {
+          "texture": "#port",
+          "uv": [
+            0,
+            0,
+            16,
+            16
+          ]
+        }
+      },
+      "to": [
+        14.5,
+        12.0,
+        13.0
+      ],
+      "from": [
+        13.85,
+        4.0,
+        12.0
+      ]
+    },
+    {
+      "from": [
+        14.5,
+        3.0,
+        3.0
+      ],
+      "faces": {
+        "east": {
+          "forge_data": {
+            "sky_light": 15,
+            "block_light": 15,
+            "ambient_occlusion": false
+          },
+          "uv": [
+            0,
+            0,
+            16,
+            16
+          ],
+          "tintindex": 8,
+          "texture": "#glow"
+        }
+      },
+      "shade": false,
+      "to": [
+        14.51,
+        4.0,
+        13.0
+      ]
+    },
+    {
+      "from": [
+        14.5,
+        12.0,
+        3.0
+      ],
+      "faces": {
+        "east": {
+          "forge_data": {
+            "sky_light": 15,
+            "block_light": 15,
+            "ambient_occlusion": false
+          },
+          "uv": [
+            0,
+            0,
+            16,
+            16
+          ],
+          "tintindex": 8,
+          "texture": "#glow"
+        }
+      },
+      "shade": false,
+      "to": [
+        14.51,
+        13.0,
+        13.0
+      ]
+    },
+    {
+      "from": [
+        14.5,
+        4.0,
+        3.0
+      ],
+      "faces": {
+        "east": {
+          "forge_data": {
+            "sky_light": 15,
+            "block_light": 15,
+            "ambient_occlusion": false
+          },
+          "uv": [
+            0,
+            0,
+            16,
+            16
+          ],
+          "tintindex": 8,
+          "texture": "#glow"
+        }
+      },
+      "shade": false,
+      "to": [
+        14.51,
+        12.0,
+        4.0
+      ]
+    },
+    {
+      "from": [
+        14.5,
+        4.0,
+        12.0
+      ],
+      "faces": {
+        "east": {
+          "forge_data": {
+            "sky_light": 15,
+            "block_light": 15,
+            "ambient_occlusion": false
+          },
+          "uv": [
+            0,
+            0,
+            16,
+            16
+          ],
+          "tintindex": 8,
+          "texture": "#glow"
+        }
+      },
+      "shade": false,
+      "to": [
+        14.51,
+        12.0,
+        13.0
+      ]
+    }
+  ],
+  "parent": "minecraft:block/block"
+}
