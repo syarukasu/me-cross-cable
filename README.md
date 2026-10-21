@@ -63,3 +63,8 @@ AE2が要求するGuideMEは開発用の実行依存として設定されてい�
 回収アイテムの配線・染色は1.21.1のData Componentで保持します。
 試験と画像証拠はローカル開発用checkoutに保持しています。
 他のMOD構成・全ての将来AE2版との互換性や、本番環境での動作は未保証です。
+
+## Project License
+
+Original project code and resources: `LGPL-3.0-only`. See [LICENSE](LICENSE)
+and [LICENSING.md](LICENSING.md). Third-party material retains its own terms.

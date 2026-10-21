@@ -44,7 +44,7 @@ tasks.named('processResources') {
     filesMatching('META-INF/neoforge.mods.toml') { expand version: project.version }
 }
 tasks.named('jar') {
-    from 'LICENSE'
+    from('LICENSE', 'LICENSE-MIT', 'LICENSING.md')
     preserveFileTimestamps = false
     reproducibleFileOrder = true
 }
