@@ -45,6 +45,6 @@ tasks.named('processResources') {
     inputs.property 'version', project.version
     filesMatching('META-INF/mods.toml') { expand version: project.version }
 }
-tasks.named('jar') { finalizedBy 'reobfJar'; from 'LICENSE' }
+tasks.named('jar') { finalizedBy 'reobfJar'; from('LICENSE', 'LICENSE-MIT', 'LICENSING.md') }
 tasks.named('sourcesJar') { from 'tools' }
 tasks.withType(JavaCompile).configureEach { options.encoding = 'UTF-8' }
