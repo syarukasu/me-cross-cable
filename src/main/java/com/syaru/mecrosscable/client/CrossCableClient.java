@@ -4,19 +4,18 @@ import com.syaru.mecrosscable.CrossCableBlockEntity;
 import com.syaru.mecrosscable.CrossCableMod;
 import com.syaru.mecrosscable.PortRouting;
 import appeng.api.util.AEColor;
-import net.minecraft.client.gui.screens.MenuScreens;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.client.event.EntityRenderersEvent;
-import net.minecraftforge.client.event.RegisterColorHandlersEvent;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.neoforge.client.event.EntityRenderersEvent;
+import net.neoforged.neoforge.client.event.RegisterColorHandlersEvent;
+import net.neoforged.bus.api.SubscribeEvent;
+import net.neoforged.fml.common.EventBusSubscriber;
+import net.neoforged.neoforge.client.event.RegisterMenuScreensEvent;
 
-@Mod.EventBusSubscriber(modid=CrossCableMod.ID, value=Dist.CLIENT, bus=Mod.EventBusSubscriber.Bus.MOD)
+@EventBusSubscriber(modid=CrossCableMod.ID, value=Dist.CLIENT, bus=EventBusSubscriber.Bus.MOD)
 public final class CrossCableClient {
     private static final PortRouting DEFAULT_ROUTING=new PortRouting();
-    @SubscribeEvent public static void setup(FMLClientSetupEvent event) {
-        event.enqueueWork(() -> MenuScreens.register(CrossCableMod.MENU.get(), CrossCableScreen::new));
+    @SubscribeEvent public static void setup(RegisterMenuScreensEvent event) {
+        event.register(CrossCableMod.MENU.get(), CrossCableScreen::new);
     }
     @SubscribeEvent public static void renderers(EntityRenderersEvent.RegisterRenderers event) {
         event.registerBlockEntityRenderer(CrossCableMod.ENTITY.get(), CrossCableRenderer::new);
@@ -36,7 +35,7 @@ public final class CrossCableClient {
     @SubscribeEvent public static void itemColors(RegisterColorHandlersEvent.Item event) {
         event.register((stack,tint) -> {
             if(tint>=0&&tint<=8) {
-                var tag=stack.getTagElement("BlockEntityTag");
+                var tag=stack.get(CrossCableMod.CONFIGURATION.get());
                 int[] ports=tag==null?new int[0]:tag.getIntArray("ports");
                 int lane=tint<3?tint:PortRouting.valid(ports)?ports[tint-3]:DEFAULT_ROUTING.lane(tint-3);
                 int[] colors=tag==null?new int[0]:tag.getIntArray("colors");

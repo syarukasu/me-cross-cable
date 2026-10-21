@@ -1,17 +1,22 @@
 package com.syaru.mecrosscable;
 
 import appeng.api.util.AEColor;
+import com.mojang.serialization.MapCodec;
+import com.mojang.serialization.Codec;
+import com.mojang.serialization.codecs.RecordCodecBuilder;
 import java.util.List;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
+import net.minecraft.world.ItemInteractionResult;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.DyeItem;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.BaseEntityBlock;
@@ -25,7 +30,6 @@ import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.BooleanProperty;
 import net.minecraft.world.SimpleMenuProvider;
 import net.minecraft.server.level.ServerPlayer;
-import net.minecraftforge.network.NetworkHooks;
 import net.minecraft.world.level.material.MapColor;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.shapes.CollisionContext;
@@ -33,6 +37,10 @@ import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
 
 public final class CrossCableBlock extends BaseEntityBlock {
+    private static final MapCodec<CrossCableBlock> CODEC = RecordCodecBuilder.mapCodec(instance -> instance.group(
+            Codec.BOOL.fieldOf("smart").forGetter(CrossCableBlock::smart),
+            Codec.BOOL.fieldOf("dense").forGetter(CrossCableBlock::dense),
+            propertiesCodec()).apply(instance, CrossCableBlock::new));
     public static final BooleanProperty CUSTOM = BooleanProperty.create("custom");
     public static final BooleanProperty[] CONNECTIONS={BooleanProperty.create("down"),BooleanProperty.create("up"),
             BooleanProperty.create("north"),BooleanProperty.create("south"),BooleanProperty.create("west"),BooleanProperty.create("east")};
@@ -41,7 +49,10 @@ public final class CrossCableBlock extends BaseEntityBlock {
     private final VoxelShape[] shapes=new VoxelShape[64];
 
     public CrossCableBlock(boolean smart, boolean dense) {
-        super(BlockBehaviour.Properties.of().mapColor(MapColor.METAL).strength(0.8F).sound(SoundType.METAL).noOcclusion());
+        this(smart, dense, BlockBehaviour.Properties.of().mapColor(MapColor.METAL).strength(0.8F).sound(SoundType.METAL).noOcclusion());
+    }
+    private CrossCableBlock(boolean smart, boolean dense, BlockBehaviour.Properties properties) {
+        super(properties);
         this.smart = smart; this.dense = dense;
         BlockState defaults=stateDefinition.any().setValue(CUSTOM,false);
         for(var property:CONNECTIONS)defaults=defaults.setValue(property,false);
@@ -64,6 +75,7 @@ public final class CrossCableBlock extends BaseEntityBlock {
 
     public boolean smart() { return smart; }
     public boolean dense() { return dense; }
+    @Override protected MapCodec<? extends BaseEntityBlock> codec() { return CODEC; }
     @Override public void neighborChanged(BlockState state,Level level,BlockPos pos,Block block,BlockPos neighbor,boolean moving) {
         if(!level.isClientSide&&level.getBlockEntity(pos) instanceof CrossCableBlockEntity cable)cable.onAdjacentChanged();
     }
@@ -79,8 +91,17 @@ public final class CrossCableBlock extends BaseEntityBlock {
         if (!level.isClientSide && entity instanceof Player player && level.getBlockEntity(pos) instanceof CrossCableBlockEntity cable) cable.setOwner(player);
     }
 
-    @Override
-    public InteractionResult use(BlockState state, Level level, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hit) {
+    @Override protected ItemInteractionResult useItemOn(ItemStack stack, BlockState state, Level level, BlockPos pos,
+            Player player, InteractionHand hand, BlockHitResult hit) {
+        if (!(stack.getItem() instanceof DyeItem)) return ItemInteractionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION;
+        InteractionResult result = interact(state, level, pos, player, hand, hit);
+        return result == InteractionResult.FAIL ? ItemInteractionResult.FAIL : ItemInteractionResult.sidedSuccess(level.isClientSide);
+    }
+    @Override protected InteractionResult useWithoutItem(BlockState state, Level level, BlockPos pos,
+            Player player, BlockHitResult hit) {
+        return interact(state, level, pos, player, InteractionHand.MAIN_HAND, hit);
+    }
+    private InteractionResult interact(BlockState state, Level level, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hit) {
         if (!(level.getBlockEntity(pos) instanceof CrossCableBlockEntity cable)) return InteractionResult.PASS;
         ItemStack held = player.getItemInHand(hand);
         int lane = cable.laneForSide(hit.getDirection());
@@ -94,7 +115,7 @@ public final class CrossCableBlock extends BaseEntityBlock {
                     cable.recolor(lane, AEColor.TRANSPARENT);
                     player.displayClientMessage(cable.status(lane), true);
                 } else {
-                    NetworkHooks.openScreen((ServerPlayer) player,
+                    ((ServerPlayer) player).openMenu(
                             new SimpleMenuProvider((id, inventory, owner) -> new CrossCableMenu(id, inventory, pos),
                                     Component.translatable("menu.me_cross_cable")), pos);
                 }
@@ -107,7 +128,7 @@ public final class CrossCableBlock extends BaseEntityBlock {
         return switch (side.getAxis()) { case X -> 0; case Y -> 1; case Z -> 2; };
     }
 
-    @Override public void appendHoverText(ItemStack stack, BlockGetter level, List<Component> tooltip, TooltipFlag flag) {
+    @Override public void appendHoverText(ItemStack stack, Item.TooltipContext context, List<Component> tooltip, TooltipFlag flag) {
         tooltip.add(Component.translatable("tooltip.me_cross_cable.axes"));
         tooltip.add(Component.translatable("tooltip.me_cross_cable." + (dense ? "dense" : "normal")));
         tooltip.add(Component.translatable("tooltip.me_cross_cable.dye"));

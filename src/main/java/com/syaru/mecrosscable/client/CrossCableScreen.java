@@ -57,6 +57,6 @@ public final class CrossCableScreen extends AbstractContainerScreen<CrossCableMe
         g.drawWordWrap(font,Component.translatable("menu.me_cross_cable.reroute"),12,196,150,0xFF454D55);
     }
     @Override public void render(GuiGraphics g,int mouseX,int mouseY,float partial) {
-        renderBackground(g);super.render(g,mouseX,mouseY,partial);renderTooltip(g,mouseX,mouseY);
+        super.render(g,mouseX,mouseY,partial);renderTooltip(g,mouseX,mouseY);
     }
 }

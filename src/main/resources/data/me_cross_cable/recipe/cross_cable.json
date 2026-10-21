@@ -1,9 +1,4 @@
 {
-  "type": "minecraft:crafting_shaped",
-  "pattern": [
-    " C ",
-    "CQC"
-  ],
   "key": {
     "C": {
       "item": "ae2:fluix_glass_cable"
@@ -12,8 +7,13 @@
       "item": "ae2:quartz_glass"
     }
   },
+  "pattern": [
+    " C ",
+    "CQC"
+  ],
+  "type": "minecraft:crafting_shaped",
   "result": {
-    "count": 1,
-    "item": "me_cross_cable:cross_cable"
+    "id": "me_cross_cable:cross_cable",
+    "count": 1
   }
 }

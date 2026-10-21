@@ -13,6 +13,8 @@ import java.util.Arrays;
 import java.util.EnumSet;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.core.HolderLookup;
+import net.minecraft.core.component.DataComponentMap;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.Connection;
 import net.minecraft.network.chat.Component;
@@ -147,21 +149,40 @@ public final class CrossCableBlockEntity extends BlockEntity implements IInWorld
         level.sendBlockUpdated(worldPosition, getBlockState(), getBlockState(), Block.UPDATE_CLIENTS);
     }
 
-    @Override protected void saveAdditional(CompoundTag tag) {
-        super.saveAdditional(tag);
+    @Override protected void saveAdditional(CompoundTag tag, HolderLookup.Provider registries) {
+        super.saveAdditional(tag, registries);
         tag.put("nodes", captureNodes());
         tag.putIntArray("ports", routing.ports());
         tag.putIntArray("colors", Arrays.stream(colors).mapToInt(Enum::ordinal).toArray());
     }
-    @Override public void load(CompoundTag tag) {
-        super.load(tag);
-        destroyNodes();
-        savedNodes = tag.getCompound("nodes").copy();
+    @Override protected void collectImplicitComponents(DataComponentMap.Builder components) {
+        super.collectImplicitComponents(components);
+        var config = new CompoundTag();
+        config.putIntArray("ports", routing.ports());
+        config.putIntArray("colors", Arrays.stream(colors).mapToInt(Enum::ordinal).toArray());
+        components.set(CrossCableMod.CONFIGURATION.get(), config);
+    }
+    @Override protected void applyImplicitComponents(DataComponentInput components) {
+        super.applyImplicitComponents(components);
+        var config = components.get(CrossCableMod.CONFIGURATION.get());
+        if (config != null) readConfiguration(config);
+    }
+    @Override public void removeComponentsFromTag(CompoundTag tag) {
+        super.removeComponentsFromTag(tag);
+        tag.remove("ports");
+        tag.remove("colors");
+    }
+    private void readConfiguration(CompoundTag tag) {
         int[] ports = tag.getIntArray("ports");
         routing = PortRouting.valid(ports) ? new PortRouting(ports) : new PortRouting();
         int[] loaded = tag.getIntArray("colors");
-        for (int i = 0; i < 3; i++) colors[i] = i < loaded.length && loaded[i] >= 0 && loaded[i] < AEColor.values().length
-                ? AEColor.values()[loaded[i]] : AEColor.TRANSPARENT;
+        for (int i = 0; i < 3; i++) colors[i] = readColor(loaded, i);
+    }
+    @Override protected void loadAdditional(CompoundTag tag, HolderLookup.Provider registries) {
+        super.loadAdditional(tag, registries);
+        destroyNodes();
+        savedNodes = tag.getCompound("nodes").copy();
+        readConfiguration(tag);
         scheduleInit();
     }
 
@@ -213,7 +234,7 @@ public final class CrossCableBlockEntity extends BlockEntity implements IInWorld
                 Component.translatable(colors[lane].translationKey), used[lane],
                 infinite[lane] ? Component.translatable("message.me_cross_cable.unlimited") : Component.literal(Integer.toString(capacity[lane])));
     }
-    @Override public CompoundTag getUpdateTag() {
+    @Override public CompoundTag getUpdateTag(HolderLookup.Provider registries) {
         var tag = new CompoundTag();
         tag.putIntArray("ports", routing.ports());
         tag.putIntArray("lineColors", Arrays.stream(lineColors).mapToInt(Enum::ordinal).toArray());
@@ -225,7 +246,7 @@ public final class CrossCableBlockEntity extends BlockEntity implements IInWorld
         tag.putInt("flags", flags); tag.putInt("connected", connected);
         return tag;
     }
-    @Override public void handleUpdateTag(CompoundTag tag) {
+    @Override public void handleUpdateTag(CompoundTag tag, HolderLookup.Provider registries) {
         int[] ports = tag.getIntArray("ports");
         routing = PortRouting.valid(ports) ? new PortRouting(ports) : new PortRouting();
         int[] lines=tag.getIntArray("lineColors"),ends=tag.getIntArray("portColors");
@@ -241,8 +262,8 @@ public final class CrossCableBlockEntity extends BlockEntity implements IInWorld
         if (level != null) level.sendBlockUpdated(worldPosition, getBlockState(), getBlockState(), Block.UPDATE_CLIENTS);
     }
     @Override public ClientboundBlockEntityDataPacket getUpdatePacket() { return ClientboundBlockEntityDataPacket.create(this); }
-    @Override public void onDataPacket(Connection connection, ClientboundBlockEntityDataPacket packet) {
-        if (packet.getTag() != null) handleUpdateTag(packet.getTag());
+    @Override public void onDataPacket(Connection connection, ClientboundBlockEntityDataPacket packet, HolderLookup.Provider registries) {
+        handleUpdateTag(packet.getTag(), registries);
     }
     private static AEColor readColor(int[] values,int index) {
         return index<values.length&&values[index]>=0&&values[index]<AEColor.values().length?AEColor.values()[values[index]]:AEColor.TRANSPARENT;

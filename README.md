@@ -1,7 +1,8 @@
 # ME Cross Cable
 
 1ブロック内で3本のME回線を独立して通すAE2アドオン。
-Forge 1.20.1 / Java 17 / AE2 15.4.10以上。ACOは不要です。
+このブランチは NeoForge 1.21.1 / Java 21 / AE2 19.2.18以上に対応します。ACOは不要です。
+Forge 1.20.1版は`main`ブランチです。Minecraft版・ローダーに合うJARを使用してください。
 
 ## ケーブル
 
@@ -48,17 +49,17 @@ AE2公開APIによる3個の独立GridNodeを使用します。Mixin、独自の
 .\gradlew.bat build
 ```
 
-AE2の公式配布JARをローカルで使う場合は、JARのディレクトリを
-`-Pae2LocalDir=<directory>`で指定します。ビルド時のAE2固定版は15.4.11です。
+ビルド時の固定版はNeoForge 21.1.247、AE2 19.2.18です。Java 21を使用します。
 AE2が要求するGuideMEは開発用の実行依存として設定されています。
 
 モデル・16x16テクスチャ・翻訳・レシピは同梱済みです。
 アセット生成器を変更した場合は `.\gradlew.bat generateAssets` で再生成します。
 
-配布物は`build/libs/me-cross-cable-forge-1.20.1-<version>.jar`です。
-`-sources.jar`は導入しません。NeoForge版はまだ実装していません。
+配布物は`build/libs/me-cross-cable-neoforge-1.21.1-<version>.jar`です。
+`-sources.jar`は導入しません。1.20.1ワールドからの移行対応は未検証です。
 
-初期版はAlphaです。AE2 15.4.11でビルド、単体試験5件、実AE2 GameTest 8件、
-隔離クライアントでモデル・夜間の発光・設定同期を確認しました。
+初期版はAlphaです。AE2 19.2.18でビルド、実AE2 GameTest 9件、
+隔離クライアントで配布JARの起動・3種のモデルと接続色・チャンネル表示・設定画面と配線同期を確認しました。
+回収アイテムの配線・染色は1.21.1のData Componentで保持します。
 試験と画像証拠はローカル開発用checkoutに保持しています。
 他のMOD構成・全ての将来AE2版との互換性や、本番環境での動作は未保証です。

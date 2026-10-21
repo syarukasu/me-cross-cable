@@ -1,13 +1,12 @@
-plugins { id 'net.minecraftforge.gradle' version '6.0.54' }
+plugins { id 'java-library'; id 'net.neoforged.moddev' version '2.0.143' }
 
 group = 'com.syaru.mecrosscable'
 version = '0.1.0-alpha.1'
-base { archivesName = 'me-cross-cable-forge-1.20.1' }
-java { toolchain.languageVersion = JavaLanguageVersion.of(17); withSourcesJar() }
+base { archivesName = 'me-cross-cable-neoforge-1.21.1' }
+java { toolchain.languageVersion = JavaLanguageVersion.of(21); withSourcesJar() }
 repositories {
     mavenCentral()
     maven { url = 'https://modmaven.dev' }
-    if (project.hasProperty('ae2LocalDir')) flatDir { dirs file(property('ae2LocalDir')) }
 }
 sourceSets {
     assetGenerator {
@@ -15,25 +14,24 @@ sourceSets {
         java.include '**/GenerateAssets.java', '**/CableGeometry.java', '**/ChannelDisplay.java'
     }
 }
-minecraft {
-    mappings channel: 'official', version: '1.20.1'
+neoForge {
+    version = '21.1.247'
     runs {
-        configureEach {
-            workingDirectory project.file('run')
-            jvmArgs '-Xmx2G'
-            mods { me_cross_cable { source sourceSets.main } }
+        client {
+            client()
+            gameDirectory = file('run')
+            jvmArgument '-Xmx2G'
         }
-        client { }
-        server { args '--nogui' }
+        server { server(); gameDirectory = file('build/server-smoke'); programArgument '--nogui' }
+    }
+    mods {
+        me_cross_cable { sourceSet sourceSets.main }
     }
 }
 dependencies {
     assetGeneratorImplementation 'com.google.code.gson:gson:2.10.1'
-    minecraft 'net.minecraftforge:forge:1.20.1-47.4.18'
-    implementation fg.deobf(project.hasProperty('ae2LocalDir')
-            ? 'local:appliedenergistics2-forge:15.4.11'
-            : 'appeng:appliedenergistics2-forge:15.4.11')
-    runtimeOnly fg.deobf('org.appliedenergistics:guideme:20.1.7')
+    implementation('org.appliedenergistics:appliedenergistics2:19.2.18') { transitive = false }
+    runtimeOnly('org.appliedenergistics:guideme:21.1.17') { transitive = false }
 }
 tasks.register('generateAssets', JavaExec) {
     dependsOn tasks.named('assetGeneratorClasses')
@@ -43,8 +41,13 @@ tasks.register('generateAssets', JavaExec) {
 }
 tasks.named('processResources') {
     inputs.property 'version', project.version
-    filesMatching('META-INF/mods.toml') { expand version: project.version }
+    filesMatching('META-INF/neoforge.mods.toml') { expand version: project.version }
 }
-tasks.named('jar') { finalizedBy 'reobfJar'; from 'LICENSE' }
+tasks.named('jar') {
+    from 'LICENSE'
+    preserveFileTimestamps = false
+    reproducibleFileOrder = true
+}
 tasks.named('sourcesJar') { from 'tools' }
 tasks.withType(JavaCompile).configureEach { options.encoding = 'UTF-8' }
+if (file('local/qa.gradle').isFile()) apply from: 'local/qa.gradle'

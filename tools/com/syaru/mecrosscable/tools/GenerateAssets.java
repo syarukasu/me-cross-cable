@@ -42,24 +42,23 @@ public final class GenerateAssets {
             json("assets/"+ID+"/blockstates/"+id+".json",Map.of("multipart",multipart));
             model(id, dense, smart);
             json("assets/"+ID+"/models/item/"+id+".json", Map.of("parent",ID+":block/"+id));
-            json("data/"+ID+"/recipes/"+id+".json", Map.of("type","minecraft:crafting_shaped",
+            json("data/"+ID+"/recipe/"+id+".json", Map.of("type","minecraft:crafting_shaped",
                     "pattern",List.of(" C ","CQC"), "key",Map.of("C",Map.of("item","ae2:"+cables[variant]),
-                    "Q",Map.of("item","ae2:quartz_glass")), "result",Map.of("item",ID+":"+id,"count",1)));
-            json("data/"+ID+"/advancements/recipes/"+id+".json", Map.of("parent","minecraft:recipes/root",
+                    "Q",Map.of("item","ae2:quartz_glass")), "result",Map.of("id",ID+":"+id,"count",1)));
+            json("data/"+ID+"/advancement/recipes/"+id+".json", Map.of("parent","minecraft:recipes/root",
                     "criteria", Map.of("has_cable",Map.of("trigger","minecraft:inventory_changed",
                             "conditions",Map.of("items",List.of(Map.of("items",List.of("ae2:"+cables[variant])))))),
                     "rewards",Map.of("recipes",List.of(ID+":"+id))));
-            json("data/"+ID+"/loot_tables/blocks/"+id+".json", Map.of("type","minecraft:block",
+            json("data/"+ID+"/loot_table/blocks/"+id+".json", Map.of("type","minecraft:block",
                     "pools",List.of(Map.of("rolls",1,"entries",List.of(Map.of("type","minecraft:item","name",ID+":"+id,
-                            "functions",List.of(Map.of("function","minecraft:copy_nbt","source","block_entity","ops",List.of(
-                                    Map.of("source","colors","target","BlockEntityTag.colors","op","replace"),
-                                    Map.of("source","ports","target","BlockEntityTag.ports","op","replace")))))),
+                            "functions",List.of(Map.of("function","minecraft:copy_components","source","block_entity",
+                                    "include",List.of(ID+":configuration"))))),
                             "conditions",List.of(Map.of("condition","minecraft:survives_explosion"))))));
         }
-        json("data/minecraft/tags/blocks/mineable/pickaxe.json", Map.of("replace",false,"values",List.of(
+        json("data/minecraft/tags/block/mineable/pickaxe.json", Map.of("replace",false,"values",List.of(
                 ID+":cross_cable", ID+":smart_cross_cable", ID+":dense_smart_cross_cable")));
         language(false); language(true);
-        json("pack.mcmeta", Map.of("pack",Map.of("pack_format",15,"description","ME Cross Cable resources")));
+        json("pack.mcmeta", Map.of("pack",Map.of("pack_format",34,"description","ME Cross Cable resources")));
     }
 
     private static void model(String id, boolean dense, boolean smart) throws Exception {
@@ -90,7 +89,7 @@ public final class GenerateAssets {
         var b=light.box();
         return Map.of("from",List.of(b.x0(),b.y0(),b.z0()),"to",List.of(b.x1(),b.y1(),b.z1()),"shade",false,
                 "faces",Map.of(FACES[light.port()],Map.of("texture","#glow","tintindex",3+light.port(),
-                        "uv",List.of(0,0,16,16),"forge_data",Map.of("block_light",15,"sky_light",15,"ambient_occlusion",false))));
+                        "uv",List.of(0,0,16,16),"neoforge_data",Map.of("block_light",15,"sky_light",15,"ambient_occlusion",false))));
     }
     private static Object element(CableGeometry.Box b,String texture,int tint,String outwardFace) {
         var faces=new LinkedHashMap<String,Object>();

@@ -1,27 +1,27 @@
 modLoader="javafml"
-loaderVersion="[47,)"
+loaderVersion="[4,)"
 license="MIT"
 [[mods]]
 modId="me_cross_cable"
 version="${version}"
 displayName="ME Cross Cable"
 authors="syarukasu"
-description='''Three independent straight-through ME lines in one block. Glass, smart and dense smart variants. No shared inventory or network bridge.'''
+description='''Three independent ME lines in one block. Glass, smart and dense smart variants with configurable port pairs and cable-colored indicators.'''
 [[dependencies.me_cross_cable]]
-modId="forge"
-mandatory=true
-versionRange="[47.4.18,48)"
+modId="neoforge"
+type="required"
+versionRange="[21.1.247,)"
 ordering="NONE"
 side="BOTH"
 [[dependencies.me_cross_cable]]
 modId="minecraft"
-mandatory=true
-versionRange="[1.20.1,1.20.2)"
+type="required"
+versionRange="[1.21.1,1.21.2)"
 ordering="NONE"
 side="BOTH"
 [[dependencies.me_cross_cable]]
 modId="ae2"
-mandatory=true
-versionRange="[15.4.10,)"
+type="required"
+versionRange="[19.2.18,)"
 ordering="AFTER"
 side="BOTH"

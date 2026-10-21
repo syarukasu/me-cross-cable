@@ -18,7 +18,7 @@ import net.minecraft.resources.ResourceLocation;
 public final class CrossCableRenderer implements BlockEntityRenderer<CrossCableBlockEntity> {
     private record LampQuad(int port,int segment,float[] points) { }
     private static final List<List<LampQuad>> BANKS=List.of(bank(false),bank(true));
-    private static final ResourceLocation WHITE=new ResourceLocation("minecraft","block/white_concrete");
+    private static final ResourceLocation WHITE=ResourceLocation.fromNamespaceAndPath("minecraft","block/white_concrete");
     public CrossCableRenderer(BlockEntityRendererProvider.Context context) { }
 
     @Override public void render(CrossCableBlockEntity cable,float partialTick,PoseStack poses,
@@ -45,11 +45,11 @@ public final class CrossCableRenderer implements BlockEntityRenderer<CrossCableB
             net.minecraft.client.renderer.texture.TextureAtlasSprite sprite) {
         float[] points=lamp.points();
         var side=Direction.from3DDataValue(lamp.port());
-        for(int i=0;i<4;i++)consumer.vertex(poses.last().pose(),points[i*3],points[i*3+1],points[i*3+2])
-                    .color((rgb>>16)&255,(rgb>>8)&255,rgb&255,255)
-                    .uv(i<2?sprite.getU0():sprite.getU1(),i==0||i==3?sprite.getV0():sprite.getV1())
-                    .overlayCoords(OverlayTexture.NO_OVERLAY).uv2(LightTexture.FULL_BRIGHT)
-                    .normal(poses.last().normal(),side.getStepX(),side.getStepY(),side.getStepZ()).endVertex();
+        for(int i=0;i<4;i++)consumer.addVertex(poses.last().pose(),points[i*3],points[i*3+1],points[i*3+2])
+                    .setColor((rgb>>16)&255,(rgb>>8)&255,rgb&255,255)
+                    .setUv(i<2?sprite.getU0():sprite.getU1(),i==0||i==3?sprite.getV0():sprite.getV1())
+                    .setOverlay(OverlayTexture.NO_OVERLAY).setLight(LightTexture.FULL_BRIGHT)
+                    .setNormal(poses.last(),side.getStepX(),side.getStepY(),side.getStepZ());
     }
 
     private static List<LampQuad> bank(boolean dense) {
